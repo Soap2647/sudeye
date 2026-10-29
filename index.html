@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sude'ye ♥</title>
+<meta name="description" content="Sadece 29 Ekim'de değil, her gün.">
+<meta property="og:title" content="Sude'ye ♥">
+<meta property="og:description" content="Kalbimin en orta yeri sana ait.">
+<meta name="theme-color" content="#14060d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#14060d; --rose:#e8899f; --blush:#f6c9d3; --cream:#fbf1e8; --gold:#f2c27b; --ink:#4a1d2a; --wine:#8a2942;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--night);color:var(--cream);overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.script{font-family:'Great Vibes',cursive;font-weight:400}
+
+.bg{position:fixed;inset:0;background:radial-gradient(120% 90% at 50% 45%,#3a1226 0%,#220a17 45%,#12050c 100%)}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block}
+#yt{position:fixed;left:0;bottom:0;width:200px;height:200px;opacity:.001;pointer-events:none;z-index:-1}
+
+/* giriş */
+.intro{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;transition:opacity 1.1s ease,transform 1.1s ease,filter 1.1s ease}
+.intro.hide{opacity:0;transform:scale(1.06);filter:blur(6px);pointer-events:none}
+.eyebrow{font-size:14px;letter-spacing:.42em;padding-left:.42em;text-transform:uppercase;color:var(--gold);opacity:.85}
+.intro h1{font-size:clamp(68px,15vw,140px);line-height:1.05;color:var(--cream);text-shadow:0 0 30px rgba(232,137,159,.55),0 0 90px rgba(232,137,159,.25)}
+.lead{font-size:clamp(19px,2.4vw,23px);font-style:italic;color:#f3d9de;opacity:.9}
+.open-btn{margin-top:26px;width:120px;height:120px;border-radius:50%;border:1px solid rgba(246,201,211,.45);background:radial-gradient(circle at 50% 38%,rgba(232,137,159,.32),rgba(120,20,50,.22));color:var(--cream);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:ring 2.4s ease-out infinite;transition:transform .35s ease}
+.open-btn:hover{transform:scale(1.06)}
+.open-btn svg{width:36px;height:36px;fill:#f6a5b7;filter:drop-shadow(0 0 10px rgba(246,165,183,.85));animation:beat 1.5s ease-in-out infinite}
+.open-btn span{font-size:15px;letter-spacing:.32em;padding-left:.32em;text-transform:uppercase}
+.hint{display:flex;align-items:center;gap:8px;font-size:16px;color:rgba(251,241,232,.62);margin-top:14px}
+.hint svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(232,137,159,.45)}70%{box-shadow:0 0 0 28px rgba(232,137,159,0)}100%{box-shadow:0 0 0 0 rgba(232,137,159,0)}}
+@keyframes beat{0%,100%{transform:scale(1)}14%{transform:scale(1.18)}28%{transform:scale(1)}42%{transform:scale(1.1)}56%{transform:scale(1)}}
+
+/* üst bar */
+.topbar{position:fixed;top:max(16px,env(safe-area-inset-top));left:16px;right:16px;z-index:4;display:flex;justify-content:space-between;align-items:center;pointer-events:none;opacity:0;transition:opacity 1.2s ease 1s}
+body.started .topbar{opacity:1}
+.topbar>*{pointer-events:auto}
+.mark{font-size:13px;letter-spacing:.35em;text-transform:uppercase;color:rgba(242,194,123,.85)}
+.ctrls{display:flex;gap:8px;margin-left:auto}
+.ctrl{height:44px;min-width:44px;border-radius:999px;border:1px solid rgba(246,201,211,.28);background:rgba(43,13,28,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--cream);display:flex;align-items:center;justify-content:center;gap:10px;padding:0 16px;cursor:pointer;font-size:16px;transition:background .3s,border-color .3s}
+.ctrl:hover{background:rgba(90,25,52,.6)}
+.ctrl.icon{padding:0;width:44px}
+.ctrl svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.eq{display:flex;align-items:flex-end;gap:2px;height:14px}
+.eq i{display:block;width:3px;height:4px;border-radius:2px;background:var(--rose)}
+.music.playing .eq i{animation:eq 1s ease-in-out infinite}
+.music.playing .eq i:nth-child(2){animation-delay:.25s}
+.music.playing .eq i:nth-child(3){animation-delay:.5s}
+.music.playing .eq i:nth-child(4){animation-delay:.12s}
+@keyframes eq{0%,100%{height:4px}50%{height:14px}}
+.music.nudge{border-color:rgba(242,194,123,.9);animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(242,194,123,.55)}50%{box-shadow:0 0 0 9px rgba(242,194,123,0)}}
+
+/* kalbin içi */
+.heart-text{position:fixed;z-index:2;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:calc(var(--s,10)*17px);max-width:78vw}
+.ht-name{font-size:calc(var(--s,10)*5.4px);line-height:1.1;color:var(--cream);text-shadow:0 0 24px rgba(255,180,200,.75),0 0 60px rgba(232,137,159,.45);opacity:0;filter:blur(14px);transform:translateY(10px) scale(.96);transition:opacity 1.8s cubic-bezier(.2,.7,.2,1),filter 1.8s cubic-bezier(.2,.7,.2,1),transform 1.8s cubic-bezier(.2,.7,.2,1)}
+.ht-line{margin-top:calc(var(--s,10)*.35px);font-size:clamp(13px,calc(var(--s,10)*1.15px),26px);line-height:1.35;font-style:italic;letter-spacing:.03em;color:#f8dde3;opacity:0;transform:translateY(8px);transition:opacity 1.4s ease .9s,transform 1.4s ease .9s}
+.heart-text.show .ht-name{opacity:1;filter:blur(0);transform:none}
+.heart-text.show .ht-line{opacity:.95;transform:none}
+
+/* mektup butonu */
+.pill{position:fixed;left:50%;bottom:max(30px,calc(env(safe-area-inset-bottom) + 22px));z-index:3;transform:translate(-50%,20px);opacity:0;pointer-events:none;display:flex;align-items:center;gap:10px;white-space:nowrap;padding:15px 26px;border-radius:999px;border:1px solid rgba(246,201,211,.42);background:rgba(43,13,28,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--cream);font-size:19px;font-style:italic;cursor:pointer;transition:opacity 1s ease,transform 1s ease,background .3s}
+.pill.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.pill:hover{background:rgba(90,25,52,.65)}
+.pill svg{width:20px;height:20px;stroke:var(--blush);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* mektup */
+.letter{position:fixed;inset:0;z-index:10;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(24px,env(safe-area-inset-top)) 16px 40px;background:rgba(14,4,9,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s linear .6s}
+.letter.open{opacity:1;visibility:visible;transition:opacity .6s ease}
+.paper{position:relative;max-width:600px;margin:6vh auto;border-radius:6px;padding:clamp(34px,6vw,60px) clamp(24px,6vw,58px) clamp(36px,6vw,56px);background:linear-gradient(180deg,#fdf6ee 0%,#f8ebe0 100%);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.5);transform:translateY(24px) scale(.98);transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.letter.open .paper{transform:none}
+.paper h2{font-size:clamp(46px,8vw,60px);line-height:1.1;color:var(--wine);margin-bottom:14px}
+.paper p{font-size:clamp(19px,2.6vw,21px);line-height:1.75;margin-bottom:18px}
+.paper .big{font-size:clamp(21px,3vw,25px);font-style:italic;color:var(--wine);line-height:1.55}
+.paper .sign{font-family:'Great Vibes',cursive;font-size:clamp(36px,6vw,46px);line-height:1.25;color:var(--wine);text-align:right;margin:26px 0 0}
+.divider{display:flex;justify-content:center;gap:14px;margin:30px 0 6px}
+.divider svg{width:18px;height:18px}
+.close{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:none;background:transparent;color:var(--wine);cursor:pointer;display:grid;place-items:center;transition:background .25s}
+.close:hover{background:rgba(138,41,66,.08)}
+.close svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.letter.open .paper>*:not(.close){animation:rise .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*150ms + 250ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+@media (max-width:420px){.mark{display:none}.pill{font-size:18px;padding:14px 22px}}
+@media (prefers-reduced-motion:reduce){.open-btn,.open-btn svg,.music.nudge{animation:none}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div id="yt" aria-hidden="true"></div>
+
+<section id="intro" class="intro">
+  <p class="eyebrow">29 Ekim</p>
+  <h1 class="script">Sude'ye</h1>
+  <p class="lead">Senin için küçük bir şey hazırladım.</p>
+  <button id="openBtn" class="open-btn" type="button" aria-label="Sürprizi aç">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2.2 4 6.2 4c2.3 0 3.8 1.3 4.8 2.8C12 5.3 13.5 4 15.8 4c4 0 5.9 4.4 4.2 7.7C19.5 16.4 12 21 12 21z"/></svg>
+    <span>Aç</span>
+  </button>
+  <p class="hint">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+    Sesini aç, öyle izle
+  </p>
+</section>
+
+<header class="topbar">
+  <span class="mark">29 · 10</span>
+  <div class="ctrls">
+    <button id="musicBtn" class="ctrl music" type="button" aria-label="Müziği başlat">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>Yalın — Cumhuriyet</span>
+    </button>
+    <button id="replayBtn" class="ctrl icon" type="button" aria-label="Baştan oynat">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="heartText" class="heart-text" aria-live="polite">
+  <div class="ht-name script">Sude</div>
+  <div class="ht-line">kalbimin en orta yeri<br>sana ait</div>
+</div>
+
+<button id="letterBtn" class="pill" type="button">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+  Sana birkaç satır yazdım
+</button>
+
+<div id="letter" class="letter" role="dialog" aria-modal="true" aria-labelledby="letterTitle" aria-hidden="true">
+  <article class="paper">
+    <button id="closeLetter" class="close" type="button" aria-label="Mektubu kapat">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2 id="letterTitle" class="script" style="--i:0">Sude,</h2>
+    <p style="--i:1">Bugün 29 Ekim. Herkes sevdiğine bir demet çiçek alıp aynı şarkıyla paylaşıyor. Ben de almak isterdim; elimde bir buketle kapına gelmek isterdim. Ama aramızda kilometreler var.</p>
+    <p style="--i:2">O yüzden çiçekleri buraya ektim. Tek tek açtılar, sonra hepsi aynı yere, sana doğru yürüdü. Tıpkı benim her gün yaptığım gibi.</p>
+    <p style="--i:3">Biliyorum, bazen aramız bozuluyor. Bazen mesafe sesimizi yoruyor, cümlelerimizi yarım bırakıyor. Ama ne olursa olsun bir şey hiç değişmiyor: sabah ilk aklıma gelen de, gece son düşündüğüm de hep sensin.</p>
+    <p style="--i:4">Mesafe sadece bir sayı. Bir bilet, bir yol, biraz sabır. Bir gün o sayıyı sıfırlayacağım ve bu çiçeklerin gerçeğini kendi elimle sana vereceğim. Söz.</p>
+    <p style="--i:5">O güne kadar, o günden sonra da...</p>
+    <p class="big" style="--i:6">Sadece 29 Ekim'de değil, her gün: kalbimin en orta yeri sana ait.</p>
+    <div class="divider" style="--i:7" aria-hidden="true">
+      <svg viewBox="0 0 20 20"><g fill="#e8899f"><ellipse cx="10" cy="5" rx="3" ry="4.5"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(72 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(144 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(216 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(288 10 10)"/></g><circle cx="10" cy="10" r="2.2" fill="#f2c27b"/></svg>
+      <svg viewBox="0 0 20 20"><g fill="#8a2942"><ellipse cx="10" cy="5" rx="3" ry="4.5"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(72 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(144 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(216 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(288 10 10)"/></g><circle cx="10" cy="10" r="2.2" fill="#f2c27b"/></svg>
+      <svg viewBox="0 0 20 20"><g fill="#e8899f"><ellipse cx="10" cy="5" rx="3" ry="4.5"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(72 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(144 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(216 10 10)"/><ellipse cx="10" cy="5" rx="3" ry="4.5" transform="rotate(288 10 10)"/></g><circle cx="10" cy="10" r="2.2" fill="#f2c27b"/></svg>
+    </div>
+    <p class="sign" style="--i:8">Seni çok seviyorum.<br>Mert</p>
+  </article>
+</div>
+
+<noscript><p style="position:fixed;inset:auto 0 40px;text-align:center">Bu sayfayı görmek için JavaScript açık olmalı.</p></noscript>
+
+<script>
+(() => {
+  const VIDEO_IDS = ['qqh_4Z6QCyw', '0tkZXRgQraA', 'WdOQit6xZAw'];
+
+  const canvas = document.getElementById('scene');
+  const ctx = canvas.getContext('2d');
+  const intro = document.getElementById('intro');
+  const openBtn = document.getElementById('openBtn');
+  const musicBtn = document.getElementById('musicBtn');
+  const replayBtn = document.getElementById('replayBtn');
+  const heartText = document.getElementById('heartText');
+  const letterBtn = document.getElementById('letterBtn');
+  const letter = document.getElementById('letter');
+  const closeLetter = document.getElementById('closeLetter');
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const TS = reduce ? 0.35 : 1;
+  const SPAWN = 4.2 * TS, BLOOM = 1.4 * TS, MOVE0 = 4.6 * TS, TRACE = 4.2 * TS, RING_DELAY = 0.9 * TS, MOVE_DUR = 2.6 * TS;
+
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const easeOutCubic = x => 1 - Math.pow(1 - x, 3);
+  const easeInOutCubic = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const easeOutBack = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+
+  // ---------- çiçek çizimleri (önceden render edilen açılma kareleri) ----------
+  const SPRITE = 160, FRAMES = 18;
+  const TYPES = [
+    { leaves: true, layers: [
+      { n: 5, len: .95, wid: .64, col: ['#6d0d25', '#c2224a'], glow: 'rgba(220,40,80,.45)' },
+      { n: 5, len: .7, wid: .56, col: ['#8f1333', '#e0436a'], rot: 36 },
+      { n: 4, len: .44, wid: .5, col: ['#a91a40', '#f06a8a'], rot: 12 }], center: { r: .08, col: ['#ff8fa8', '#5e0a1f'] } },
+    { leaves: true, layers: [
+      { n: 6, len: .93, wid: .6, col: ['#a50d26', '#ff4d6d'], glow: 'rgba(255,60,90,.45)' },
+      { n: 6, len: .6, wid: .55, col: ['#8a0b20', '#ff6b81'], rot: 30 }], center: { r: .13, col: ['#ffd27a', '#3b0712'], dots: '#ffd98a' } },
+    { layers: [
+      { n: 5, len: .92, wid: .78, col: ['#e57f9b', '#f9d1db'], notch: true, glow: 'rgba(246,180,200,.5)' }], center: { r: .15, col: ['#fff1b8', '#e8a23c'], dots: '#fff4c9' } },
+    { leaves: true, layers: [
+      { n: 6, len: .95, wid: .8, col: ['#e86f78', '#f8b9ab'], glow: 'rgba(240,130,130,.45)' },
+      { n: 6, len: .66, wid: .7, col: ['#f08e94', '#fcd3c6'], rot: 30 },
+      { n: 5, len: .38, wid: .6, col: ['#f3a3a3', '#fee6dc'], rot: 12 }], center: { r: .06, col: ['#fff0c0', '#f2b84b'] } },
+    { layers: [
+      { n: 12, len: .95, wid: .27, col: ['#f2b3c6', '#fffafb'], glow: 'rgba(255,220,230,.5)' }], center: { r: .2, col: ['#ffe08a', '#e0942c'], dots: '#fff2b0' } },
+    { layers: [
+      { n: 8, len: .9, wid: .44, col: ['#d977a8', '#fbd6e7'], glow: 'rgba(230,150,200,.45)' }], center: { r: .15, col: ['#fff3c4', '#f0b64a'], dots: '#fff7d6' } }
+  ];
+  const RING_TYPES = [
+    [[0, 4], [1, 3], [3, 1], [2, 1]],
+    [[3, 2], [2, 2], [0, 2], [5, 1]],
+    [[2, 2], [4, 2], [5, 2], [3, 1]]
+  ];
+
+  function petalPath(c, l, w, notch) {
+    c.beginPath();
+    c.moveTo(0, 0);
+    c.bezierCurveTo(-w, -l * .28, -w * .85, -l * .98, notch ? -w * .18 : 0, -l);
+    if (notch) { c.quadraticCurveTo(0, -l * .86, w * .18, -l); c.bezierCurveTo(w * .85, -l * .98, w, -l * .28, 0, 0); }
+    else c.bezierCurveTo(w * .85, -l * .98, w, -l * .28, 0, 0);
+    c.closePath();
+  }
+
+  function drawFlower(c, t, o) {
+    const R = SPRITE * .42, e = easeOutCubic(o);
+    if (t.leaves && e > .05) {
+      const lg = c.createLinearGradient(0, 0, 0, -R * 1.05);
+      lg.addColorStop(0, '#24452c'); lg.addColorStop(1, '#6fa36a');
+      [2.35, 3.95].forEach(a => {
+        c.save(); c.rotate(a); c.scale(e, e);
+        c.beginPath(); c.moveTo(0, 0);
+        c.quadraticCurveTo(R * .34, -R * .55, 0, -R * 1.05);
+        c.quadraticCurveTo(-R * .34, -R * .55, 0, 0);
+        c.fillStyle = lg; c.globalAlpha = .9; c.fill(); c.globalAlpha = 1;
+        c.strokeStyle = 'rgba(20,50,25,.5)'; c.lineWidth = 1; c.beginPath(); c.moveTo(0, 0); c.lineTo(0, -R * .95); c.stroke();
+        c.restore();
+      });
+    }
+    t.layers.forEach((L, k) => {
+      const lo = clamp(o * 1.15 - k * .05);
+      const le = easeOutCubic(lo);
+      const len = L.len * R * (.28 + .72 * le);
+      const wid = L.wid * R * .55 * (.32 + .68 * le);
+      const g = c.createLinearGradient(0, 0, 0, -len);
+      g.addColorStop(0, L.col[0]); g.addColorStop(1, L.col[1]);
+      c.save();
+      c.rotate((L.rot || 0) * Math.PI / 180 + (1 - le) * .5);
+      if (k === 0 && L.glow) { c.shadowColor = L.glow; c.shadowBlur = 16 * le; }
+      for (let i = 0; i < L.n; i++) {
+        c.save(); c.rotate(i * Math.PI * 2 / L.n);
+        petalPath(c, len, wid, L.notch);
+        c.fillStyle = g; c.fill();
+        c.shadowBlur = 0;
+        c.strokeStyle = 'rgba(255,255,255,.14)'; c.lineWidth = 1; c.stroke();
+        c.restore();
+      }
+      c.restore();
+    });
+    const cr = t.center.r * R * (.6 + .4 * e);
+    const cg = c.createRadialGradient(-cr * .3, -cr * .3, 0, 0, 0, cr);
+    cg.addColorStop(0, t.center.col[0]); cg.addColorStop(1, t.center.col[1]);
+    c.beginPath(); c.arc(0, 0, cr, 0, Math.PI * 2); c.fillStyle = cg; c.fill();
+    if (t.center.dots) {
+      c.fillStyle = t.center.dots;
+      for (let i = 0; i < 10; i++) {
+        const a = i * Math.PI * 2 / 10, rr = cr * 1.15;
+        c.beginPath(); c.arc(Math.cos(a) * rr, Math.sin(a) * rr, Math.max(.8, cr * .12), 0, Math.PI * 2); c.fill();
+      }
+    }
+  }
+
+  const sprites = TYPES.map(t => {
+    const frames = [];
+    for (let f = 0; f < FRAMES; f++) {
+      const cv = document.createElement('canvas');
+      cv.width = cv.height = SPRITE;
+      const c = cv.getContext('2d');
+      c.translate(SPRITE / 2, SPRITE / 2);
+      drawFlower(c, t, f / (FRAMES - 1));
+      frames.push(cv);
+    }
+    return frames;
+  });
+
+  function softSprite(rgb, a) {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 256;
+    const c = cv.getContext('2d');
+    const g = c.createRadialGradient(128, 128, 0, 128, 128, 128);
+    g.addColorStop(0, `rgba(${rgb},${a})`); g.addColorStop(1, `rgba(${rgb},0)`);
+    c.fillStyle = g; c.fillRect(0, 0, 256, 256);
+    return cv;
+  }
+  const bokehSprite = softSprite('255,165,190', .32);
+  const glowSprite = softSprite('255,120,160', .5);
+
+  // ---------- kalp eğrisi ----------
+  const CURVE = (() => {
+    const N = 2400, pts = []; let L = 0, prev = null;
+    for (let i = 0; i <= N; i++) {
+      const t = i / N * Math.PI * 2;
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) - 2.55;
+      if (prev) L += Math.hypot(x - prev.x, y - prev.y);
+      const p = { x, y, l: L }; pts.push(p); prev = p;
+    }
+    return { pts, L };
+  })();
+
+  function sampleEven(n, offset) {
+    const out = [], P = CURVE.pts;
+    for (let k = 0; k < n; k++) {
+      const frac = ((k + offset) / n) % 1, target = frac * CURVE.L;
+      let lo = 0, hi = P.length - 1;
+      while (lo < hi) { const m = (lo + hi) >> 1; if (P[m].l < target) lo = m + 1; else hi = m; }
+      out.push({ x: P[lo].x, y: P[lo].y, frac });
+    }
+    return out;
+  }
+
+  function pickWeighted(list) {
+    const total = list.reduce((s, [, w]) => s + w, 0);
+    let r = Math.random() * total;
+    for (const [id, w] of list) { if ((r -= w) <= 0) return id; }
+    return list[0][0];
+  }
+
+  // ---------- sahne durumu ----------
+  let W = 0, H = 0, DPR = 1, S = 10, CX = 0, CY = 0;
+  let flowers = [], sparks = [], petals = [], stars = [];
+  let started = false, t0 = 0, lastArrive = 0, arrivedCount = 0, textShown = false, btnShown = false;
+
+  const RINGS = [{ ring: 1, n: 72, size: 2.15 }, { ring: .86, n: 60, size: 1.85 }, { ring: .73, n: 46, size: 1.5 }];
+
+  function build() {
+    flowers = []; sparks = []; arrivedCount = 0; lastArrive = 0;
+    RINGS.forEach((r, ri) => {
+      sampleEven(r.n, ri * .37).forEach(p => {
+        const rank = Math.min(p.frac, 1 - p.frac) * 2;
+        const spawn = Math.random() * SPAWN;
+        const moveAt = Math.max(MOVE0 + rank * TRACE + ri * RING_DELAY + Math.random() * .25 * TS, spawn + BLOOM * .9);
+        const dur = MOVE_DUR * rand(.85, 1.15);
+        lastArrive = Math.max(lastArrive, moveAt + dur);
+        flowers.push({
+          ux: p.x, uy: p.y, ring: r.ring, sizeU: r.size * rand(.85, 1.15),
+          type: pickWeighted(RING_TYPES[ri]), rot: rand(0, 6.28), spin: rand(-.6, .6), phase: rand(0, 6.28),
+          fx: rand(.05, .95), fy: rand(.06, .94), curve: rand(-.35, .35),
+          spawn, moveAt, dur, arrived: false
+        });
+      });
+    });
+    flowers.sort((a, b) => a.spawn - b.spawn);
+  }
+
+  function resize() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+    S = Math.min(W * .92 / 33, H * .66 / 30);
+    CX = W / 2; CY = H * .47;
+    heartText.style.setProperty('--s', S.toFixed(2));
+    heartText.style.left = CX + 'px';
+    heartText.style.top = (CY - S * 1.3) + 'px';
+  }
+
+  function makeStars() {
+    const n = Math.round(Math.min(220, W * H / 8000 + 40));
+    stars = Array.from({ length: n }, () => ({ x: Math.random(), y: Math.random(), r: rand(.3, 1.25), sp: rand(.5, 2), ph: rand(0, 6.28) }));
+  }
+  const bokeh = Array.from({ length: 8 }, () => ({ x: Math.random(), y: Math.random(), r: rand(.12, .32), vx: rand(-.006, .006), vy: rand(-.004, .004), a: rand(.25, .6) }));
+
+  const PETAL_COLORS = ['#f6b3c4', '#e8899f', '#f9d3dc', '#d4566f', '#fbe3e8', '#c2224a'];
+  function newPetal(fromTop) {
+    return {
+      x: Math.random() * W, y: fromTop ? -20 - Math.random() * 120 : Math.random() * H,
+      vy: rand(18, 42), sw: rand(10, 30), fr: rand(.4, 1.1), ph: rand(0, 6.28),
+      rot: rand(0, 6.28), spin: rand(-1.2, 1.2), flip: rand(0, 6.28), fs: rand(1.5, 3.5),
+      size: rand(4.5, 9), c: PETAL_COLORS[Math.random() * PETAL_COLORS.length | 0], a: rand(.5, .85)
+    };
+  }
+
+  function burst(x, y) {
+    for (let i = 0; i < 6; i++) {
+      const a = rand(0, 6.28), v = rand(20, 60);
+      sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, decay: rand(1.2, 2.2), r: rand(1, 2.4), c: Math.random() < .5 ? '255,214,150' : '255,170,195' });
+    }
+  }
+
+  // ---------- çizim ----------
+  function drawStars(now) {
+    ctx.fillStyle = '#fff3f0';
+    for (const s of stars) {
+      ctx.globalAlpha = .25 + .55 * (.5 + .5 * Math.sin(now * s.sp + s.ph));
+      ctx.beginPath(); ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawBokeh(dt) {
+    const m = Math.max(W, H);
+    for (const b of bokeh) {
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      if (b.x < -.3) b.x = 1.3; if (b.x > 1.3) b.x = -.3;
+      if (b.y < -.3) b.y = 1.3; if (b.y > 1.3) b.y = -.3;
+      const d = b.r * m;
+      ctx.globalAlpha = b.a;
+      ctx.drawImage(bokehSprite, b.x * W - d / 2, b.y * H - d / 2, d, d);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawPetals(dt, now) {
+    const target = started ? Math.round(clamp(W / 1440, .45, 1) * 38) : 12;
+    while (petals.length < target) petals.push(newPetal(started));
+    for (let i = petals.length - 1; i >= 0; i--) {
+      const p = petals[i];
+      p.y += p.vy * dt; p.rot += p.spin * dt; p.flip += p.fs * dt;
+      if (p.y > H + 30) { if (petals.length > target) { petals.splice(i, 1); continue; } Object.assign(p, newPetal(true)); }
+      ctx.save();
+      ctx.translate(p.x + Math.sin(now * p.fr + p.ph) * p.sw, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(1, Math.abs(Math.cos(p.flip)) * .8 + .2);
+      ctx.globalAlpha = p.a; ctx.fillStyle = p.c;
+      ctx.beginPath(); ctx.ellipse(0, 0, p.size, p.size * .62, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function beat(now) {
+    const ph = (now % 1.5) / 1.5;
+    return Math.exp(-Math.pow((ph - .08) / .045, 2)) + .6 * Math.exp(-Math.pow((ph - .26) / .055, 2));
+  }
+
+  function drawScene(t, now) {
+    const amp = clamp((t - lastArrive - .2) / 1.5);
+    const b = beat(now);
+    const pulse = 1 + .03 * b * amp;
+
+    const glowA = arrivedCount / Math.max(1, flowers.length);
+    if (glowA > 0) {
+      const d = S * 44 * (1 + .04 * b * amp);
+      ctx.globalAlpha = .55 * glowA;
+      ctx.drawImage(glowSprite, CX - d / 2, CY - S * 1.5 - d / 2, d, d);
+      ctx.globalAlpha = 1;
+    }
+
+    for (const f of flowers) {
+      if (t < f.spawn) continue;
+      const o = clamp((t - f.spawn) / BLOOM);
+      const pop = easeOutBack(clamp(o * 1.25));
+      const fi = Math.round(easeOutCubic(o) * (FRAMES - 1));
+      const tx = CX + f.ux * f.ring * S * pulse, ty = CY + f.uy * f.ring * S * pulse;
+      const swayX = Math.sin(now * .9 + f.phase) * S * .06, swayY = Math.cos(now * .7 + f.phase) * S * .05;
+      const ax0 = f.fx * W, ay0 = f.fy * H;
+      const bobX = Math.sin(now * 1.1 + f.phase) * 6, bobY = Math.cos(now * .9 + f.phase) * 5;
+      let x, y, e = 0;
+      if (t < f.moveAt) { x = ax0 + bobX; y = ay0 + bobY; }
+      else {
+        const k = clamp((t - f.moveAt) / f.dur);
+        e = easeInOutCubic(k);
+        const ax = ax0 + bobX * (1 - e), ay = ay0 + bobY * (1 - e), bx = tx + swayX * e, by = ty + swayY * e;
+        const dx = bx - ax, dy = by - ay;
+        const qx = (ax + bx) / 2 - dy * f.curve, qy = (ay + by) / 2 + dx * f.curve;
+        const u = 1 - e;
+        x = u * u * ax + 2 * u * e * qx + e * e * bx;
+        y = u * u * ay + 2 * u * e * qy + e * e * by;
+        if (k >= 1 && !f.arrived) { f.arrived = true; arrivedCount++; burst(bx, by); }
+      }
+      const rot = f.rot + f.spin * Math.min(t, f.moveAt + f.dur) + Math.sin(now * .8 + f.phase) * .06;
+      const size = f.sizeU * S / .8 * pop * (1.2 - .2 * e) * (e >= 1 ? pulse : 1);
+      ctx.save();
+      ctx.globalAlpha = clamp(o * 2.5);
+      ctx.translate(x, y); ctx.rotate(rot);
+      ctx.drawImage(sprites[f.type][fi], -size / 2, -size / 2, size, size);
+      ctx.restore();
+    }
+  }
+
+  function drawSparks(dt) {
+    if (!sparks.length) return;
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i];
+      s.life -= s.decay * dt;
+      if (s.life <= 0) { sparks.splice(i, 1); continue; }
+      s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= .96; s.vy *= .96;
+      ctx.globalAlpha = s.life;
+      ctx.fillStyle = `rgb(${s.c})`;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r * (0.6 + s.life * .6), 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  let last = performance.now() / 1000;
+  function frame(ms) {
+    const now = ms / 1000, dt = Math.min(.05, now - last); last = now;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    drawStars(now);
+    drawBokeh(dt);
+    if (started) {
+      const t = now - t0;
+      drawScene(t, now);
+      drawSparks(dt);
+      if (!textShown && t > lastArrive + .3) { textShown = true; heartText.classList.add('show'); }
+      if (!btnShown && t > lastArrive + 2.6 * TS) { btnShown = true; letterBtn.classList.add('show'); }
+    }
+    drawPetals(dt, now);
+    requestAnimationFrame(frame);
+  }
+
+  function startScene(delay) {
+    build();
+    t0 = performance.now() / 1000 + delay;
+    started = true; textShown = false; btnShown = false;
+    heartText.classList.remove('show');
+    letterBtn.classList.remove('show');
+  }
+
+  // ---------- müzik (YouTube) ----------
+  let player = null, ytReady = false, idIdx = 0, wantPlay = false, playing = false;
+
+  function updateMusicUI() {
+    musicBtn.classList.toggle('playing', playing);
+    musicBtn.setAttribute('aria-label', playing ? 'Müziği durdur' : 'Müziği başlat');
+    if (playing) musicBtn.classList.remove('nudge');
+  }
+
+  function tryPlay() {
+    if (!ytReady) return;
+    try { player.unMute(); player.setVolume(85); player.playVideo(); } catch (e) {}
+  }
+
+  window.onYouTubeIframeAPIReady = () => {
+    player = new YT.Player('yt', {
+      width: 200, height: 200, videoId: VIDEO_IDS[0],
+      playerVars: { autoplay: 0, controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3 },
+      events: {
+        onReady: () => { ytReady = true; if (wantPlay) tryPlay(); },
+        onStateChange: e => {
+          playing = e.data === YT.PlayerState.PLAYING;
+          if (e.data === YT.PlayerState.ENDED) { player.seekTo(0); player.playVideo(); }
+          updateMusicUI();
+        },
+        onError: () => {
+          idIdx++;
+          if (idIdx >= VIDEO_IDS.length) return;
+          if (wantPlay) player.loadVideoById(VIDEO_IDS[idIdx]);
+          else player.cueVideoById(VIDEO_IDS[idIdx]);
+        }
+      }
+    });
+  };
+  const yt = document.createElement('script');
+  yt.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(yt);
+
+  // ---------- etkileşim ----------
+  openBtn.addEventListener('click', () => {
+    wantPlay = true; tryPlay();
+    intro.classList.add('hide');
+    document.body.classList.add('started');
+    setTimeout(() => { intro.style.display = 'none'; }, 1200);
+    startScene(.9);
+    setTimeout(() => { if (!playing) musicBtn.classList.add('nudge'); }, 3500);
+  });
+
+  musicBtn.addEventListener('click', () => {
+    musicBtn.classList.remove('nudge');
+    if (playing) { wantPlay = false; player.pauseVideo(); }
+    else { wantPlay = true; tryPlay(); }
+  });
+
+  replayBtn.addEventListener('click', () => startScene(.2));
+
+  function openLetter() {
+    letter.classList.add('open');
+    letter.setAttribute('aria-hidden', 'false');
+    letter.scrollTop = 0;
+    closeLetter.focus({ preventScroll: true });
+  }
+  function hideLetter() {
+    letter.classList.remove('open');
+    letter.setAttribute('aria-hidden', 'true');
+    letterBtn.focus({ preventScroll: true });
+  }
+  letterBtn.addEventListener('click', openLetter);
+  closeLetter.addEventListener('click', hideLetter);
+  letter.addEventListener('click', e => { if (e.target === letter) hideLetter(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && letter.classList.contains('open')) hideLetter(); });
+
+  window.addEventListener('resize', resize);
+  resize();
+  makeStars();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
